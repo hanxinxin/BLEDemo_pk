@@ -1,0 +1,94 @@
+ [
+  {
+  "name": "Fruit",
+  "desciption": "Fruit",
+  "goods": [
+            {
+            "id": "001",
+            "icon": "BananaR",
+            "name": "Banana",
+            "originalPrice": "5.00",
+            "salePrice": "5.50",
+            "stock": "1",
+            "desc": "Banana"
+            },
+            {
+            "id": "002",
+            "icon": "AppleR",
+            "name": "Apple",
+            "originalPrice": "2.00",
+            "salePrice": "1.85",
+            "stock": "1",
+            "desc": "Apple"
+            },
+            {
+            "id": "003",
+            "icon": "OrangeR",
+            "name": "Orange",
+            "originalPrice": "5.00",
+            "salePrice": "2.99",
+            "stock": "1",
+            "desc": "Orange"
+            },
+            {
+            "id": "003",
+            "icon": "GrapeR",
+            "name": "Grape",
+            "originalPrice": "6.00",
+            "salePrice": "5.50",
+            "stock": "1",
+            "desc": "Grape"
+            },
+            {
+            "id": "003",
+            "icon": "PearR",
+            "name": "Pear",
+            "originalPrice": "10.00",
+            "salePrice": "8.99",
+            "stock": "1",
+            "desc": "Pear"
+            },
+            
+            ]
+  },
+  {
+  "name": "Drink",
+  "desciption": "Drink",
+  "goods": [
+            {
+            "id": "101",
+            "icon": "guess_xiapi",
+            "name": "Coke",
+            "originalPrice": "3.5",
+            "salePrice": "3.5",
+            "stock": "1",
+            "desc": "Coke"
+            }
+            ]
+  },
+  {
+  "name": "Milk",
+  "desciption": "Milk",
+  "goods": [
+            {
+            "id": "201",
+            "icon": "guess_nimeng",
+            "name": "Pure milk",
+            "originalPrice": "6",
+            "salePrice": "6",
+            "stock": "1",
+            "desc": "Pure milk"
+            },
+            {
+            "id": "204",
+            "icon": "guess_taozi",
+            "name": "Lactic acid bacteria",
+            "originalPrice": "8",
+            "salePrice": "8",
+            "stock": "1",
+            "desc": "Lactic acid bacteria"
+            }
+            ]
+  }
+  
+  ]

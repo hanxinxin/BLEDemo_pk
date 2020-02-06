@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5zi-pa-qZs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5zi-pa-qZs">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,6 +38,92 @@
             </objects>
             <point key="canvasLocation" x="138.40000000000001" y="85.907046476761622"/>
         </scene>
+        <!--Timeline Address View Controller-->
+        <scene sceneID="XBi-zP-IaN">
+            <objects>
+                <viewController storyboardIdentifier="timelineAddressViewController" id="Ky2-Ol-vsD" customClass="timelineAddressViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wKq-Lo-HS3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j8l-gV-5oP">
+                                <rect key="frame" x="0.0" y="130" width="375" height="537"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="q3g-Qj-OlM"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableviewA" destination="j8l-gV-5oP" id="vyb-vT-QCO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pj4-4y-hG1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138" y="752"/>
+        </scene>
+        <!--Hx Shop Cart View Controller-->
+        <scene sceneID="ZlY-VY-qgz">
+            <objects>
+                <viewController storyboardIdentifier="HxShopCartViewController" id="lWI-fb-6bG" customClass="HxShopCartViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aZy-5q-m7C">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.94108378887176514" green="0.94124132394790649" blue="0.94106310606002808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="t5b-No-r3K"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8lA-x3-Ivd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4cT-Rs-MKv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="961" y="777"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="p9l-2Z-WzD">
+            <objects>
+                <tableViewController id="htc-AB-IJO" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6C6-oD-ULQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="SFn-5o-SbA">
+                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SFn-5o-SbA" id="Lie-7m-35a">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="htc-AB-IJO" id="XOp-DV-1kn"/>
+                            <outlet property="delegate" destination="htc-AB-IJO" id="mAL-p6-IVf"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="Kc0-aq-PlI"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5DJ-s0-u5u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1726" y="1551"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="d9H-Im-vZl">
+            <objects>
+                <navigationController id="Yic-ty-MxP" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Mz3-LI-u9f">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="lWI-fb-6bG" kind="relationship" relationship="rootViewController" id="qr8-gt-Gj1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ts0-Wz-VFD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="961" y="1534"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="zYK-CK-x22">
             <objects>
@@ -53,6 +139,46 @@
                                     <constraint firstAttribute="height" constant="369" id="GF1-PA-XQl"/>
                                 </constraints>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEz-QC-qEp">
+                                <rect key="frame" x="276" y="14" width="99" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="设置新的key"/>
+                                <connections>
+                                    <action selector="SetNewkey_touch:" destination="5zi-pa-qZs" eventType="touchUpInside" id="lEs-hX-zc1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHc-hM-dB4">
+                                <rect key="frame" x="276" y="75" width="99" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="打开锁"/>
+                                <connections>
+                                    <action selector="open_lock_touch:" destination="5zi-pa-qZs" eventType="touchUpInside" id="aon-nU-jdk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWX-wN-0uI">
+                                <rect key="frame" x="276" y="153" width="99" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="发送洗衣指令"/>
+                                <connections>
+                                    <action selector="send_XY_touch:" destination="5zi-pa-qZs" eventType="touchUpInside" id="Ev5-Fy-B6H"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYv-k2-7Za">
+                                <rect key="frame" x="6" y="14" width="99" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="回退旧的key"/>
+                                <connections>
+                                    <action selector="HuiTui_key:" destination="5zi-pa-qZs" eventType="touchUpInside" id="Gkr-wA-Tr9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p7o-Y1-XSh">
+                                <rect key="frame" x="6" y="75" width="99" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="刷新列表"/>
+                                <connections>
+                                    <action selector="CleanArrayBleUpdate:" destination="5zi-pa-qZs" eventType="touchUpInside" id="SzS-IO-2O0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>

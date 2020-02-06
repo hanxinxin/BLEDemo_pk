@@ -23,6 +23,13 @@
 
 
 
+
+//!MARK:- 加密 返回data  传入16进制字符串
++ (NSData *)aes128EncryptWithContentDataStr:(NSString *)plaintext KeyStr:(char * )KeyString gIvStr:(char *)gIvString;
+
+//!MARK:- 加密 返回data 传入NSdata
++ (NSData *)aes128EncryptWithContentData:(NSData *)data KeyStr:(char * )KeyString gIvStr:(char *)gIvString;
+
 /**
  解密
 
@@ -32,6 +39,9 @@
 //+ (NSString *)aes128DencryptWithContent:(NSString *)ciphertext;
 + (NSString *)aes128DencryptWithContent:(NSString *)ciphertext KeyStr:(char * )KeyString gIvStr:(char *)gIvString;
 
+
+///传入的是NSData 类型
++ (NSData *)aes128DencryptWithContentData:(NSData *)data KeyStr:(char * )KeyString gIvStr:(char *)gIvString;
 
 
 

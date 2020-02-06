@@ -36,10 +36,24 @@
 
 ///// 获取 请求头加token   error 也返回 statusCode
 //-(void)PostURL_Token:(NSString *)URLString parameters:(id)parameters progress:(void(^)(id progress))Progress Success:(void (^)(NSInteger statusCode,id responseObject))Success failure:(void (^)(NSError *error))failure;
--(void)PostURL_Token:(NSString *)URLString parameters:(id)parameters progress:(void(^)(id progress))Progress Success:(void (^)(NSInteger statusCode,id responseObject))Success failure:(void (^)(NSInteger statusCode,NSError *error))failure;
+//-(void)PostURL_Token:(NSString *)URLString parameters:(id)parameters progress:(void(^)(id progress))Progress Success:(void (^)(NSInteger statusCode,id responseObject))Success failure:(void (^)(NSInteger statusCode,NSError *error))failure;
+/// 请求头加token
+/// @param HeaderFieldArray HeaderField 的集合，规则是 数组里面包含另一个数组，最里层的数组下标0是Value 1是key
+/// @param URLString URL地址
+/// @param parameters post参数
+/// @param Progress 进度
+/// @param Success 成功Blok
+/// @param failure 失败blok
+-(void)PostURL_Token:(NSArray*)HeaderFieldArray UrlStr:(NSString *)URLString parameters:(id)parameters progress:(void(^)(id progress))Progress Success:(void (^)(NSInteger statusCode,id responseObject))Success failure:(void (^)(NSInteger statusCode,NSError *error))failure;
 
 /////请求头加token
--(void)GETWithCompleteURL_token:(NSString *)URLString
+//-(void)GETWithCompleteURL_token:(NSString *)URLString
+//                     parameters:(id)parameters
+//                       progress:(void(^)(id progress))progress
+//                        success:(void (^)(id responseObject))success
+//                        failure:(void (^)(NSInteger statusCode,NSError *error))failure;
+-(void)GETWithCompleteURL_token:(NSArray*)HeaderFieldArray
+                         UrlStr:(NSString *)URLString
                      parameters:(id)parameters
                        progress:(void(^)(id progress))progress
                         success:(void (^)(id responseObject))success

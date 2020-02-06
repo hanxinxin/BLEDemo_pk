@@ -8,12 +8,16 @@
 
 #import "ViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "HXBleManager.h"
+#import "AES_SecurityUtil.h"
+#import "BinHexOctUtil.h"
+#import "PakpoboxBLE.h"
+#import "BLEBottom.h"
+#import "BluetoothBusinessSDK.h"
 #define M_BLE_NAME @"Gnwee"
 #define M_BLE_MAC  @"A4C138050DC2"
 
 //Service UUID:6e400001-b5a3-f393-e0a9-e50e24dcca9e
-@interface ViewController  ()<CBCentralManagerDelegate, CBPeripheralDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ViewController  ()<CBCentralManagerDelegate, CBPeripheralDelegate,UITableViewDelegate,UITableViewDataSource,HXBleManagerDelegate>
 
 /**
  手机设备
@@ -48,9 +52,16 @@
 @property (nonatomic, strong) NSMutableArray * ListArray;
 @property (nonatomic, strong) NSMutableArray * DUIBIList;
 
+
+@property (nonatomic, assign) BOOL sendJQBool;
+
+
+/// ble鉴权类
+@property (nonatomic, strong) BLEBottom * BLEClass;
 @end
 
 @implementation ViewController
+char keyPtr1 [];
 
 
 //MARK: 1.初始化设备
@@ -61,12 +72,21 @@
     self.ListBleTableView.delegate=self;
     self.ListBleTableView.dataSource=self;
     self.ListBleTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.BLEClass=[[BLEBottom alloc] init];
+//    self.BLEClass.
+//    [[NSUserDefaults standardUserDefaults] setObject:@"c1071263a90561a50127" forKey:@"CSKeystr"];
+//
     // 初始化设备
 //    self.centralManager =[[CBCentralManager alloc]initWithDelegate:self queue:nil];
+    self.sendJQBool=NO;
     self.manager = [HXBleManager sharedInstance];
+    self.manager.delegate=self;
+    [self.manager setAddressName:@"F07F579765DB"];
+    [self.BLEClass setHXBleManager:self.manager];
     dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0/*延迟执行时间*/ * NSEC_PER_SEC));
     
     dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        
         [self.manager scanPeripherals:NO];
         
     });
@@ -90,7 +110,41 @@
     [self.ListArray removeAllObjects];
     [self.DUIBIList removeAllObjects];
 }
+- (IBAction)CleanArrayBleUpdate:(id)sender {
+    [self.ListArray removeAllObjects];
+    [self.ListBleTableView reloadData];
+    [self.manager CleanScanPeripherals];
+}
 
+- (IBAction)HuiTui_key:(id)sender {
+    
+//    self.sendJQBool=YES;
+    [self.BLEClass setsendJQBoolA:YES];
+    /// 自定义的 新的key
+    [self.BLEClass UpdateBleKey:@"C1071263A90561A50918" macAddress:@"F07F579765DB"];
+}
+
+
+- (IBAction)SetNewkey_touch:(id)sender {
+//    self.sendJQBool=YES;
+    [self.BLEClass setsendJQBoolA:YES];
+    /// 自定义的 新的key
+    [self.BLEClass UpdateBleKey:@"C1071263A90561A5A1C1" macAddress:@"F07F579765DB"];
+}
+- (IBAction)open_lock_touch:(id)sender {
+//    self.sendJQBool=YES;
+    [self.BLEClass setsendJQBoolA:YES];
+    [self.BLEClass SendLockData:@"ffff01f0f0" macAddress:@"F07F579765DB"];
+}
+- (IBAction)send_XY_touch:(id)sender {
+//    self.sendJQBool=YES;
+//    [self.BLEClass setsendJQBoolA:YES];
+    BluetoothBusinessSDK *mode = [[BluetoothBusinessSDK alloc] init];
+//    [mode getServerAppKey:@"BLETEST00001"];  //获取key
+    [BluetoothBusinessSDK CourierLogin:@"SA" Word:@"888888"];
+    
+    
+}
 
 
 
@@ -191,9 +245,39 @@
 //选中时 调用的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+//
+    NSString * macAddress = @"F07F579765DB";
+//     self.sendJQBool=YES;
+//    [self.BLEClass setsendJQBoolA:YES];
+//    [self.BLEClass FirstAuthentication:CSKeystr macAddress:macAddress];
 }
 
 
+#pragma mark --------  HXBleManagerDelegate  -------
+-(void)ConnectionStatusRealTime:(BOOL)connectionBool
+{
+    if(connectionBool==YES)
+    {
+        NSLog(@"连接成功");
+    }
+}
+
+
+
+-(void)ReturnPeripheralDataDQ:(CBPeripheral *)peripheral Characteristic:(CBCharacteristic *)Device
+{
+    NSLog(@"发送的信息 = %@",Device.value);
+//    NSData * ValueData = [AES_SecurityUtil aes128DencryptWithContentData:Device.value KeyStr:keyPtr gIvStr:keyPtr];
+
+}
+/// 处理int类型转nsdata 类型多两个空字节
+/// @param i int
++(NSData *)int2Nsdata:(int) i{
+//    int j = ntohl(i); //高低位转换    不然1 的结果是 1 0 0 0
+    NSData *data = [NSData dataWithBytes: &i length: sizeof(i)];
+    NSData *RE =[data subdataWithRange:NSMakeRange(0, 2)];//截取一部分数据
+    return RE;
+    
+}
 
 @end

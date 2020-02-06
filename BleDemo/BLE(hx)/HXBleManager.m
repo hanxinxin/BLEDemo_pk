@@ -7,7 +7,7 @@
 //
 
 #import "HXBleManager.h"
-
+#import "PakpoboxBLE.h"
 
 
 #define ScanUUID @[[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]]
@@ -50,7 +50,6 @@
 @property (nonatomic, strong) NSString * macDZ;///地址
 @property (nonatomic, strong) NSString * macName;///名字
 
-@property  (nonatomic, weak) id<HXBleManagerDelegate>  delegate;
 
 
 @property (nonatomic,assign) BOOL ScanBool; //连接状态
@@ -69,7 +68,7 @@
 {
     self = [super init];
     if (self) {
-    
+
         self.ConnectBoll = NO;
         self.ScanBool = YES;
     // 初始化设备
@@ -179,6 +178,19 @@
 {
     [self.centralManager stopScan];
 }
+/// 清除设备 刷新扫描
+- (void)CleanScanPeripherals
+{
+    [self.centralManager stopScan];
+    
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5/*延迟执行时间*/ * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [self.DUIBIList removeAllObjects];
+        [self.ListArray removeAllObjects];
+        [self scanPeripherals:NO];
+    });
+}
+
 //获取当前连接的peripherals
 - (NSArray *)findConnectedPeripherals
 {
@@ -287,15 +299,16 @@
 //    NSLog(@"MAC == =%@     peripheral.name==%@",MAC,peripheral.name);
 //    NSLog(@"identifier=======   %@     name ==== %@",peripheral.identifier,peripheral.name);
 //    if([peripheral.name isEqualToString:@"Nordic_UART"])
-    if((self.macDZ!=nil) && (data!=nil))
-    {
-            NSLog(@"MAC == =%@   self.macDZ = %@",mac,self.macDZ);
-        if([mac isEqualToString:self.macDZ])
+         NSLog(@"MAC == =%@   self.macDZ = %@",mac,self.macDZ);
+        if((self.macDZ!=nil) && (data!=nil))
         {
-            [self connectToPeripheral:peripheral];
-            
+                NSLog(@"MAC == =%@   self.macDZ = %@",mac,self.macDZ);
+            if([mac isEqualToString:self.macDZ])
+            {
+                [self connectToPeripheral:peripheral];
+                
+            }
         }
-    }
     }
     }else{
 
@@ -393,7 +406,7 @@
     }
     for (CBService *service in peripheral.services) {
         self.service = service;
-        NSLog(@"设备的服务(%@),UUID(%@),count(%lu)",service,service.UUID,(unsigned long)peripheral.services.count);
+//        NSLog(@"设备的服务(%@),UUID(%@),count(%lu)",service,service.UUID,(unsigned long)peripheral.services.count);
         //MARK: 7.1 外设发现特征
         [peripheral discoverCharacteristics:nil forService:service];
     }
@@ -403,7 +416,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     
     for (CBCharacteristic *cha in service.characteristics) {
-        NSLog(@"\n设备的服务(%@)\n服务对应的特征值(%@)\nUUID(%@)\ncount(%lu)",service,cha,cha.UUID,(unsigned long)service.characteristics.count);
+//        NSLog(@"\n设备的服务(%@)\n服务对应的特征值(%@)\nUUID(%@)\ncount(%lu)",service,cha,cha.UUID,(unsigned long)service.characteristics.count);
         //MARK: 8.1 获取特征对应的描述 会回调didUpdateValueForDescriptor
         [peripheral discoverDescriptorsForCharacteristic:cha];
         //MAKR: 9.1获取特征的值 会回调didUpdateValueForCharacteristic
@@ -415,6 +428,9 @@
             // 打开外设的通知，否则无法接受数据
             // 这里也是根据项目，和硬件工程师协商好，是否需要打开通知，和打开哪个UUID的通知。
             [peripheral setNotifyValue:YES forCharacteristic:cha];
+        }
+        if ([self.delegate respondsToSelector:@selector(ConnectionSendJQ:)]) {
+            [self.delegate ConnectionSendJQ:self.ConnectBoll]; // 回调代理
         }
     }
 }
@@ -429,18 +445,35 @@
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     NSString *value = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
     
-    NSLog(@"设备的特征值(%@),获取的数据(%@)",characteristic,value);
-//    这里可以在这里获取描述
-    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FFE2"]]) {
-        NSData *data =characteristic.value;
-        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+//    NSLog(@"设备的特征值(%@),获取的数据(%@)",characteristic,value);
+    if(self.peripheral == peripheral)
+    {
+        NSLog(@"获取到已连接设备发送的信息 = %@",characteristic.value);
+        if ([self.delegate respondsToSelector:@selector(ReturnPeripheralDataDQ:Characteristic:)]) {
+            [self.delegate ReturnPeripheralDataDQ:peripheral Characteristic:characteristic]; // 回调代理
+        }
+    }else
+    {
+        if ([self.delegate respondsToSelector:@selector(ReturnPeripheralData:Characteristic:)]) {
+            [self.delegate ReturnPeripheralData:peripheral Characteristic:characteristic]; // 回调代理
+        }
     }
-    if ([self.delegate respondsToSelector:@selector(ReturnPeripheralData:Characteristic:)]) {
-           [self.delegate ReturnPeripheralData:peripheral Characteristic:characteristic]; // 回调代理
-       }
+//////    这里可以在这里获取描述
+////    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FFE2"]]) {
+////        NSData *data =characteristic.value;
+////        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+////    }
+//    if ([self.delegate respondsToSelector:@selector(ReturnPeripheralData:Characteristic:)]) {
+//        [self.delegate ReturnPeripheralData:peripheral Characteristic:characteristic]; // 回调代理
+//    }
+//
+////    [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+////    [peripheral readValueForCharacteristic:characteristic];
+}
+
+-(void)JmValue:(NSData*)data
+{
     
-//    [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-//    [peripheral readValueForCharacteristic:characteristic];
 }
 
 //MARK: 通知状态改变回调
@@ -456,7 +489,7 @@
     // 在此处读取描述即可
     for (CBDescriptor *descriptor in characteristic.descriptors) {
         self.descriptor = descriptor;
-        NSLog(@"发现外设的特征descriptor(%@)",descriptor);
+//        NSLog(@"发现外设的特征descriptor(%@)",descriptor);
         [peripheral readValueForDescriptor:descriptor];
     }
 }
@@ -546,6 +579,42 @@
 //        NSLog(@"strTemp = %@",strTemp);
     }
     return strTemp;
+}
+
+
+
+-(NSData *)getData:(NSString *)str{
+    NSString * d = str;
+    if (d == nil || d.length == 0) d = @"00";
+    
+//    NSLog(@"数据 ： = %@",[NSString stringWithFormat:@"%@%@", d, d.length % 2 == 0 ? @"" : @"0"]);
+//    return decodeHex([NSString stringWithFormat:@"%@%@", d, d.length % 2 == 0 ? @"" : @"0"]);
+    return [self convertHexStrToData:[NSString stringWithFormat:@"%@%@", d, d.length % 2 == 0 ? @"" : @"0"]];
+    
+}
+// 十六进制字符串转换成NSData
+- (NSData *)convertHexStrToData:(NSString *)str {
+    if (!str || [str length] == 0) {
+        return nil;
+    }
+    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:8];
+    NSRange range;
+    if ([str length] % 2 == 0) {
+        range = NSMakeRange(0, 2);
+    } else {
+        range = NSMakeRange(0, 1);
+    }
+    for (NSInteger i = range.location; i < [str length]; i += 2) {
+        unsigned int anInt;
+        NSString *hexCharStr = [str substringWithRange:range];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        [scanner scanHexInt:&anInt];
+        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        [hexData appendData:entity];
+        range.location += range.length;
+        range.length = 2;
+    }
+    return hexData;
 }
 
 @end

@@ -106,10 +106,15 @@
 }
 
 /// 请求头加token
--(void)PostURL_Token:(NSString *)URLString parameters:(id)parameters progress:(void(^)(id progress))Progress Success:(void (^)(NSInteger statusCode,id responseObject))Success failure:(void (^)(NSInteger statusCode,NSError *error))failure
+-(void)PostURL_Token:(NSArray*)HeaderFieldArray UrlStr:(NSString *)URLString parameters:(id)parameters progress:(void(^)(id progress))Progress Success:(void (^)(NSInteger statusCode,id responseObject))Success failure:(void (^)(NSInteger statusCode,NSError *error))failure
 {
     self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:ACCEPTTYPENORMAL];
-//    [self.manager.requestSerializer setValue: TokenStr forHTTPHeaderField:@"userToken"];
+//    TokenStr HeaderKeyStr:(NSString*)Headerkey
+    for (int i=0; i<HeaderFieldArray.count; i++) {
+        NSArray * arr = HeaderFieldArray[i];
+        [self.manager.requestSerializer setValue: arr[0] forHTTPHeaderField:arr[1]];
+    }
+    
     [self.manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //        NSLog(@"task===  %@",task);
@@ -126,13 +131,17 @@
 }
 
 /// 请求头加token
--(void)GETWithCompleteURL_token:(NSString *)URLString
+-(void)GETWithCompleteURL_token:(NSArray*)HeaderFieldArray UrlStr:(NSString *)URLString
                parameters:(id)parameters
                  progress:(void(^)(id progress))progress
                   success:(void (^)(id responseObject))success
                   failure:(void (^)(NSInteger statusCode,NSError *error))failure{
     // 设置请求头
 //    [self.manager.requestSerializer setValue: TokenStr forHTTPHeaderField:@"userToken"];
+    for (int i=0; i<HeaderFieldArray.count; i++) {
+        NSArray * arr = HeaderFieldArray[i];
+        [self.manager.requestSerializer setValue: arr[0] forHTTPHeaderField:arr[1]];
+    }
     //    _manager.securityPolicy=[self customSecurityPolicy];
     _manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:ACCEPTTYPENORMAL];
     

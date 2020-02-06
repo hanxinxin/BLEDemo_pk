@@ -23,11 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)ConnectionStatusRealTime:(BOOL)connectionBool;
 
 
+/// MARK: 收到设备的服务开始鉴权
+/// @param connectionBool 状态
+-(void)ConnectionSendJQ:(BOOL)connectionBool;
+
 ///MARK:  返回连接设备发送的数据
 /// @param peripheral 连接的设备
 /// @param Device 设备携带的数据
 -(void)ReturnPeripheralData:(CBPeripheral *)peripheral Characteristic:(CBCharacteristic *)Device;
 
+///MARK:  返回当前连接设备发送的数据
+/// @param peripheral 连接的设备
+/// @param Device 设备携带的数据
+-(void)ReturnPeripheralDataDQ:(CBPeripheral *)peripheral Characteristic:(CBCharacteristic *)Device;
 
 /// MARK:  返回发送数据成功是否
 /// @param State 状态 
@@ -45,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HXBleManager : NSObject
 
 
+@property  (nonatomic, weak) id<HXBleManagerDelegate>  delegate;
+
 + (id)sharedInstance;
 -(void)setAddressName:(NSString*)macDZ;
 -(void)setMacName:(NSString*)macName;
@@ -60,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)cancelScan;
 //断开连接
 -(void)closeConnected;
+/// 清除设备 刷新扫描
+- (void)CleanScanPeripherals;
 //获取当前连接的peripherals
 - (NSArray *)findConnectedPeripherals;
 
@@ -85,6 +97,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setBlockOnDiscoverToPeripherals:(void (^)(CBCentralManager *central,CBPeripheral *peripheral,NSDictionary *advertisementData, NSNumber *RSSI))block;
 @property (nonatomic, copy) void (^returnArrayList)(NSMutableArray *MuArray);
+
+
+/// 16进制字符串转为2进制
+/// @param str 要处理的字符串
+-(NSData *)getData:(NSString *)str;
 @end
 
 NS_ASSUME_NONNULL_END
